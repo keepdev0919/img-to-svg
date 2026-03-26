@@ -1,0 +1,77 @@
+{
+  "Nav": {
+    "convert": "Convert",
+    "pricing": "Pricing",
+    "api": "API",
+    "blog": "Blog",
+    "login": "로그인",
+    "signUp": "회원가입"
+  },
+  "Home": {
+    "heroTitle": "이미지를 SVG로",
+    "heroHighlight": "무료 변환",
+    "heroSubtitle": "PNG, JPG, WebP를 Figma·PPT에서 편집 가능한 SVG로 즉시 변환하세요. 배경 제거 기능 포함. 완전 무료.",
+    "featuresLabel": "주요 기능",
+    "features": {
+      "speed": {
+        "title": "초고속 변환",
+        "desc": "자체 엔진을 통해 고해상도 이미지도 단 몇 초 만에 정밀한 SVG로 변환합니다."
+      },
+      "precision": {
+        "title": "정교한 벡터 패스",
+        "desc": "AI가 형태의 곡선을 분석하여 불필요한 노드를 최소화한 깔끔한 패스를 생성합니다."
+      },
+      "privacy": {
+        "title": "개인정보 보호",
+        "desc": "업로드된 모든 파일은 변환 완료 후 즉시 서버에서 삭제되어 안전하게 보호됩니다."
+      }
+    },
+    "footer": {
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy",
+      "help": "Help Center",
+      "copyright": "© 2025 imgtosvg. All rights reserved."
+    }
+  },
+  "Converter": {
+    "dropTitle": "이미지를 드래그 앤 드롭하거나 클릭해서 선택",
+    "dropSubtitle": "PNG · JPG · WebP · 최대 10MB",
+    "selectFile": "파일 선택하기",
+    "changeFile": "클릭해서 다른 파일 선택",
+    "removeBg": "배경 제거",
+    "advancedShow": "고급 설정 ▼",
+    "advancedHide": "고급 설정 접기 ▲",
+    "colorPrecision": "색상 정밀도",
+    "colorHint": "낮을수록 단순, 높을수록 상세",
+    "noiseReduction": "노이즈 제거",
+    "noiseHint": "높을수록 작은 점 무시",
+    "pathSmooth": "패스 부드러움",
+    "pathHint": "높을수록 선이 부드러움",
+    "convert": "SVG로 변환",
+    "converting": "변환 중…",
+    "download": "SVG 다운로드",
+    "copySvg": "SVG 코드 복사",
+    "copied": "복사됨",
+    "reconvert": "재변환",
+    "original": "원본",
+    "errorUnsupported": "PNG, JPG, WebP만 가능해요.",
+    "errorTooLarge": "10MB 이하 파일만 가능해요.",
+    "errorRateLimit": "잠시 후 다시 시도해주세요. (1분에 5회 제한)",
+    "errorTimeout": "이미지가 너무 복잡해요. 해상도를 줄여 다시 시도해보세요.",
+    "errorConvert": "변환에 실패했어요. 다른 이미지로 시도해보세요.",
+    "errorNetwork": "서버에 연결할 수 없어요. 잠시 후 다시 시도해주세요.",
+    "complexityWarning": "SVG에 path가 {pathCount}개예요. Figma에서 편집이 느릴 수 있어요. 노이즈 제거를 높이거나 색상 정밀도를 낮춰보세요."
+  },
+  "Blog": {
+    "backToConverter": "← 변환기로 돌아가기",
+    "title": "블로그",
+    "subtitle": "SVG 변환 팁, 디자인 워크플로우, 피그마 활용 가이드",
+    "empty": "아직 게시글이 없습니다.",
+    "readMore": "읽기 →",
+    "minRead": "{n}분 읽기",
+    "backToList": "← 블로그 목록",
+    "ctaTitle": "지금 바로 무료로 변환해보세요",
+    "ctaSubtitle": "회원가입 없이 PNG, JPG, WebP → SVG 즉시 변환",
+    "ctaButton": "변환기 사용하기 →"
+  }
+}

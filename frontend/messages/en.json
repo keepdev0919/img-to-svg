@@ -1,0 +1,77 @@
+{
+  "Nav": {
+    "convert": "Convert",
+    "pricing": "Pricing",
+    "api": "API",
+    "blog": "Blog",
+    "login": "Login",
+    "signUp": "Sign Up"
+  },
+  "Home": {
+    "heroTitle": "Convert Images to",
+    "heroHighlight": "SVG for Free",
+    "heroSubtitle": "Instantly convert PNG, JPG, WebP to editable SVG for Figma & PowerPoint. Background removal included. Completely free.",
+    "featuresLabel": "Features",
+    "features": {
+      "speed": {
+        "title": "Lightning Fast",
+        "desc": "Our engine converts even high-resolution images to precise SVG in seconds."
+      },
+      "precision": {
+        "title": "Precise Vector Paths",
+        "desc": "AI analyzes curves and minimizes unnecessary nodes to generate clean paths."
+      },
+      "privacy": {
+        "title": "Privacy Protected",
+        "desc": "All uploaded files are immediately deleted from our servers after conversion."
+      }
+    },
+    "footer": {
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy",
+      "help": "Help Center",
+      "copyright": "© 2025 imgtosvg. All rights reserved."
+    }
+  },
+  "Converter": {
+    "dropTitle": "Drag & drop an image or click to select",
+    "dropSubtitle": "PNG · JPG · WebP · Max 10MB",
+    "selectFile": "Select File",
+    "changeFile": "Click to select a different file",
+    "removeBg": "Remove Background",
+    "advancedShow": "Advanced Settings ▼",
+    "advancedHide": "Hide Advanced Settings ▲",
+    "colorPrecision": "Color Precision",
+    "colorHint": "Lower = simpler, higher = more detailed",
+    "noiseReduction": "Noise Reduction",
+    "noiseHint": "Higher ignores smaller dots",
+    "pathSmooth": "Path Smoothness",
+    "pathHint": "Higher = smoother lines",
+    "convert": "Convert to SVG",
+    "converting": "Converting…",
+    "download": "Download SVG",
+    "copySvg": "Copy SVG Code",
+    "copied": "Copied",
+    "reconvert": "Reconvert",
+    "original": "Original",
+    "errorUnsupported": "Only PNG, JPG, WebP are supported.",
+    "errorTooLarge": "File must be 10MB or smaller.",
+    "errorRateLimit": "Please try again in a moment. (5 requests per minute)",
+    "errorTimeout": "Image is too complex. Try reducing the resolution.",
+    "errorConvert": "Conversion failed. Please try a different image.",
+    "errorNetwork": "Cannot connect to server. Please try again later.",
+    "complexityWarning": "SVG has {pathCount} paths. Editing in Figma may be slow. Try increasing noise reduction or lowering color precision."
+  },
+  "Blog": {
+    "backToConverter": "← Back to Converter",
+    "title": "Blog",
+    "subtitle": "SVG conversion tips, design workflows, Figma guides",
+    "empty": "No posts yet.",
+    "readMore": "Read →",
+    "minRead": "{n} min read",
+    "backToList": "← Blog List",
+    "ctaTitle": "Try it for free now",
+    "ctaSubtitle": "Convert PNG, JPG, WebP → SVG instantly. No sign-up required.",
+    "ctaButton": "Use Converter →"
+  }
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -20,6 +21,7 @@ type State =
   | { kind: "error"; message: string };
 
 export default function Converter() {
+  const t = useTranslations("Converter");
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [state, setState] = useState<State>({ kind: "idle" });
@@ -46,11 +48,11 @@ export default function Converter() {
 
   const handleFile = useCallback((f: File) => {
     if (!SUPPORTED.includes(f.type)) {
-      setState({ kind: "error", message: "PNG, JPG, WebP만 가능해요." });
+      setState({ kind: "error", message: t("errorUnsupported") });
       return;
     }
     if (f.size > MAX_FILE_BYTES) {
-      setState({ kind: "error", message: "10MB 이하 파일만 가능해요." });
+      setState({ kind: "error", message: t("errorTooLarge") });
       return;
     }
     setFile(f);
@@ -60,7 +62,7 @@ export default function Converter() {
     });
     setState({ kind: "idle" });
     track("file_selected", { file_type: f.type });
-  }, []);
+  }, [t]);
 
   const onDrop = useCallback(
     (e: React.DragEvent) => {
@@ -91,15 +93,15 @@ export default function Converter() {
       });
 
       if (res.status === 429) {
-        setState({ kind: "error", message: "잠시 후 다시 시도해주세요. (1분에 5회 제한)" });
+        setState({ kind: "error", message: t("errorRateLimit") });
         return;
       }
       if (res.status === 408) {
-        setState({ kind: "error", message: "이미지가 너무 복잡해요. 해상도를 줄여 다시 시도해보세요." });
+        setState({ kind: "error", message: t("errorTimeout") });
         return;
       }
       if (!res.ok) {
-        setState({ kind: "error", message: "변환에 실패했어요. 다른 이미지로 시도해보세요." });
+        setState({ kind: "error", message: t("errorConvert") });
         return;
       }
 
@@ -109,7 +111,7 @@ export default function Converter() {
       setState({ kind: "done", svgText, pathCount, complexityWarning });
       track("convert_success", { path_count: pathCount });
     } catch {
-      setState({ kind: "error", message: "서버에 연결할 수 없어요. 잠시 후 다시 시도해주세요." });
+      setState({ kind: "error", message: t("errorNetwork") });
     }
   };
 
@@ -160,7 +162,7 @@ export default function Converter() {
                   <span className="material-symbols-outlined text-[#383fd9] text-3xl">check_circle</span>
                 </div>
                 <p className="text-[#1b1b24] font-semibold font-headline text-lg">{file.name}</p>
-                <p className="text-[#454555] text-sm">클릭해서 다른 파일 선택</p>
+                <p className="text-[#454555] text-sm">{t("changeFile")}</p>
               </div>
             ) : (
               <>
@@ -169,9 +171,9 @@ export default function Converter() {
                 </div>
                 <div className="text-center space-y-3">
                   <h2 className="text-2xl font-bold font-headline text-[#1b1b24]">
-                    이미지를 드래그 앤 드롭하거나 클릭해서 선택
+                    {t("dropTitle")}
                   </h2>
-                  <p className="text-[#454555] font-medium">PNG · JPG · WebP · 최대 10MB</p>
+                  <p className="text-[#454555] font-medium">{t("dropSubtitle")}</p>
                 </div>
                 <button
                   type="button"
@@ -179,7 +181,7 @@ export default function Converter() {
                   className="mt-10 px-8 py-4 bg-[#383fd9] text-white rounded-full font-bold text-lg flex items-center gap-3 editorial-shadow hover:opacity-90 active:scale-95 transition-all"
                 >
                   <span className="material-symbols-outlined">add_photo_alternate</span>
-                  파일 선택하기
+                  {t("selectFile")}
                 </button>
               </>
             )}
@@ -224,7 +226,7 @@ export default function Converter() {
                 disabled={isConverting}
                 className="w-4 h-4 accent-[#383fd9]"
               />
-              <span className="text-[#1b1b24] text-sm font-medium">배경 제거</span>
+              <span className="text-[#1b1b24] text-sm font-medium">{t("removeBg")}</span>
             </label>
 
             <button
@@ -232,20 +234,20 @@ export default function Converter() {
               onClick={() => { setShowAdvanced((v) => { track("toggle_advanced", { open: !v }); return !v; }); }}
               className="text-sm text-[#383fd9] hover:underline font-medium"
             >
-              {showAdvanced ? "고급 설정 접기 ▲" : "고급 설정 ▼"}
+              {showAdvanced ? t("advancedHide") : t("advancedShow")}
             </button>
 
             {showAdvanced && (
               <div className="space-y-4 pt-2 border-t border-[#e3e1ee]">
-                <Slider label="색상 정밀도" value={colorPrecision} min={1} max={8}
+                <Slider label={t("colorPrecision")} value={colorPrecision} min={1} max={8}
                   onChange={setColorPrecision} disabled={isConverting}
-                  hint="낮을수록 단순, 높을수록 상세" />
-                <Slider label="노이즈 제거" value={filterSpeckle} min={1} max={100}
+                  hint={t("colorHint")} />
+                <Slider label={t("noiseReduction")} value={filterSpeckle} min={1} max={100}
                   onChange={setFilterSpeckle} disabled={isConverting}
-                  hint="높을수록 작은 점 무시" />
-                <Slider label="패스 부드러움" value={pathPrecision} min={3} max={8}
+                  hint={t("noiseHint")} />
+                <Slider label={t("pathSmooth")} value={pathPrecision} min={3} max={8}
                   onChange={setPathPrecision} disabled={isConverting}
-                  hint="높을수록 선이 부드러움" />
+                  hint={t("pathHint")} />
               </div>
             )}
           </div>
@@ -259,12 +261,12 @@ export default function Converter() {
               {isConverting ? (
                 <>
                   <span className="material-symbols-outlined animate-spin">refresh</span>
-                  변환 중…
+                  {t("converting")}
                 </>
               ) : (
                 <>
                   <span className="material-symbols-outlined">auto_awesome</span>
-                  SVG로 변환
+                  {t("convert")}
                 </>
               )}
             </button>
@@ -285,22 +287,21 @@ export default function Converter() {
           {state.complexityWarning && (
             <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-center">
               <p className="text-amber-700 text-sm font-medium">
-                SVG에 path가 {state.pathCount}개예요. Figma에서 편집이 느릴 수 있어요.
-                노이즈 제거를 높이거나 색상 정밀도를 낮춰보세요.
+                {t("complexityWarning", { pathCount: state.pathCount })}
               </p>
             </div>
           )}
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 bg-white border border-[#e3e1ee] rounded-2xl p-4 editorial-shadow">
-              <p className="text-xs text-[#454555] mb-2 font-bold uppercase tracking-wider font-headline">원본</p>
-              {preview && <img src={preview} alt="업로드된 원본 이미지" className="w-full object-contain max-h-72" />}
+              <p className="text-xs text-[#454555] mb-2 font-bold uppercase tracking-wider font-headline">{t("original")}</p>
+              {preview && <img src={preview} alt="original" className="w-full object-contain max-h-72" />}
             </div>
             <div className="flex-1 bg-white border border-[#e3e1ee] rounded-2xl p-4 editorial-shadow">
               <p className="text-xs text-[#454555] mb-2 font-bold uppercase tracking-wider font-headline">
                 SVG ({state.pathCount} paths)
               </p>
               {svgBlobUrl && (
-                <img src={svgBlobUrl} alt="변환된 SVG 결과물" className="w-full object-contain max-h-72" />
+                <img src={svgBlobUrl} alt="converted SVG" className="w-full object-contain max-h-72" />
               )}
             </div>
           </div>
@@ -310,14 +311,14 @@ export default function Converter() {
               className="px-6 py-3 bg-[#1b1b24] text-white font-semibold rounded-full hover:bg-[#1b1b24]/80 active:scale-95 transition-all flex items-center gap-2"
             >
               <span className="material-symbols-outlined text-lg">download</span>
-              SVG 다운로드
+              {t("download")}
             </button>
             <button
               onClick={copySvg}
               className="px-6 py-3 border-2 border-[#c6c5d8] text-[#1b1b24] font-semibold rounded-full hover:bg-[#f5f2ff] active:scale-95 transition-all flex items-center gap-2"
             >
               <span className="material-symbols-outlined text-lg">{copied ? "check" : "content_copy"}</span>
-              {copied ? "복사됨" : "SVG 코드 복사"}
+              {copied ? t("copied") : t("copySvg")}
             </button>
             <button
               onClick={convert}
@@ -325,7 +326,7 @@ export default function Converter() {
               className="px-6 py-3 border-2 border-[#c6c5d8] text-[#1b1b24] font-semibold rounded-full hover:bg-[#f5f2ff] disabled:opacity-50 active:scale-95 transition-all flex items-center gap-2"
             >
               <span className="material-symbols-outlined text-lg">refresh</span>
-              재변환
+              {t("reconvert")}
             </button>
           </div>
         </div>

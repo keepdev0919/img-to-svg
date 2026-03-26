@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
-import { getAllSlugs, getPostBySlug } from "../lib/posts";
+import { Link } from "@/i18n/navigation";
+import { getAllSlugs, getPostBySlug } from "@/app/blog/lib/posts";
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -18,16 +19,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(slug);
   if (!post) return {};
 
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://img-to-svg-six.vercel.app";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://img-to-svg-six.vercel.app";
 
   return {
     title: `${post.title} | imgtosvg`,
     description: post.description,
     keywords: post.keywords,
-    alternates: {
-      canonical: `${siteUrl}/blog/${post.slug}`,
-    },
+    alternates: { canonical: `${siteUrl}/blog/${post.slug}` },
     openGraph: {
       title: post.title,
       description: post.description,
@@ -42,6 +40,8 @@ export default async function BlogPost({ params }: Props) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) notFound();
+
+  const t = await getTranslations("Blog");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -59,22 +59,20 @@ export default async function BlogPost({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Back link */}
       <Link
         href="/blog"
         className="inline-flex items-center gap-1 text-sm text-[#1b1b24]/50 hover:text-[#383fd9] transition-colors mb-10"
       >
-        ← 블로그 목록
+        {t("backToList")}
       </Link>
 
-      {/* Article header */}
       <header className="mb-10">
         <div className="flex items-center gap-2 mb-4">
           <time className="inline-flex items-center px-3 py-1 rounded-full bg-[#efecf9] text-xs text-[#383fd9] font-medium">
             {post.date}
           </time>
           <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#efecf9] text-xs text-[#1b1b24]/60">
-            {post.readingTime}분 읽기
+            {t("minRead", { n: post.readingTime })}
           </span>
         </div>
         <h1 className="text-3xl font-bold text-[#1b1b24] font-headline leading-tight mb-4">
@@ -84,7 +82,6 @@ export default async function BlogPost({ params }: Props) {
         <div className="mt-6 border-t border-[#c6c5d8]/40" />
       </header>
 
-      {/* Article body */}
       <article className="prose prose-lg max-w-none
         prose-headings:font-semibold prose-headings:text-[#1b1b24] prose-headings:font-headline
         prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-4
@@ -103,19 +100,14 @@ export default async function BlogPost({ params }: Props) {
         <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
       </article>
 
-      {/* CTA */}
       <div className="mt-16 p-8 bg-gradient-to-br from-[#383fd9]/10 to-[#535bf2]/10 border border-[#383fd9]/20 rounded-2xl text-center">
-        <p className="text-lg font-semibold mb-1 text-[#1b1b24] font-headline">
-          지금 바로 무료로 변환해보세요
-        </p>
-        <p className="text-[#1b1b24]/60 text-sm mb-5">
-          회원가입 없이 PNG, JPG, WebP → SVG 즉시 변환
-        </p>
+        <p className="text-lg font-semibold mb-1 text-[#1b1b24] font-headline">{t("ctaTitle")}</p>
+        <p className="text-[#1b1b24]/60 text-sm mb-5">{t("ctaSubtitle")}</p>
         <Link
           href="/"
           className="inline-block bg-gradient-to-br from-[#383fd9] to-[#535bf2] hover:opacity-90 text-white font-semibold px-7 py-3 rounded-full transition-all active:scale-95"
         >
-          변환기 사용하기 →
+          {t("ctaButton")}
         </Link>
       </div>
     </main>
