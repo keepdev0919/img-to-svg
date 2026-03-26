@@ -20,6 +20,9 @@ export function NavLinks() {
       <a href="#" onClick={() => track("api")} className="text-[#1b1b24]/60 hover:text-[#383fd9] font-medium font-headline text-sm tracking-tight transition-colors">
         API
       </a>
+      <a href="/blog" onClick={() => track("blog")} className="text-[#1b1b24]/60 hover:text-[#383fd9] font-medium font-headline text-sm tracking-tight transition-colors">
+        Blog
+      </a>
     </div>
   );
 }
