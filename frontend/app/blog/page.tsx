@@ -19,31 +19,31 @@ export default function BlogIndex() {
       <div className="mb-12">
         <Link
           href="/"
-          className="text-sm text-gray-400 hover:text-white transition-colors"
+          className="text-sm text-[#1b1b24]/50 hover:text-[#383fd9] transition-colors"
         >
           ← 변환기로 돌아가기
         </Link>
-        <h1 className="text-4xl font-bold mt-6 mb-3">블로그</h1>
-        <p className="text-gray-400">
+        <h1 className="text-4xl font-bold mt-6 mb-3 text-[#1b1b24]">블로그</h1>
+        <p className="text-[#1b1b24]/60">
           SVG 변환 팁, 디자인 워크플로우, 피그마 활용 가이드
         </p>
       </div>
 
       {posts.length === 0 ? (
-        <p className="text-gray-500">아직 게시글이 없습니다.</p>
+        <p className="text-[#1b1b24]/40">아직 게시글이 없습니다.</p>
       ) : (
         <ul className="space-y-8">
           {posts.map((post) => (
-            <li key={post.slug} className="border-b border-white/10 pb-8">
+            <li key={post.slug} className="border-b border-[#1b1b24]/10 pb-8">
               <Link href={`/blog/${post.slug}`} className="group block">
-                <time className="text-xs text-gray-500">{post.date}</time>
-                <h2 className="text-xl font-semibold mt-1 mb-2 group-hover:text-indigo-400 transition-colors">
+                <time className="text-xs text-[#1b1b24]/40">{post.date}</time>
+                <h2 className="text-xl font-semibold mt-1 mb-2 text-[#1b1b24] group-hover:text-[#383fd9] transition-colors">
                   {post.title}
                 </h2>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-[#1b1b24]/60 text-sm leading-relaxed">
                   {post.description}
                 </p>
-                <span className="inline-block mt-3 text-sm text-indigo-400 group-hover:underline">
+                <span className="inline-block mt-3 text-sm text-[#383fd9] group-hover:underline">
                   읽기 →
                 </span>
               </Link>

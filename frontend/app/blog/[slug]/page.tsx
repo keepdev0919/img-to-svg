@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import { getAllSlugs, getPostBySlug } from "../lib/posts";
 
 interface Props {
@@ -61,40 +62,40 @@ export default async function BlogPost({ params }: Props) {
       <div className="mb-8">
         <Link
           href="/blog"
-          className="text-sm text-gray-400 hover:text-white transition-colors"
+          className="text-sm text-[#1b1b24]/50 hover:text-[#383fd9] transition-colors"
         >
           ← 블로그 목록
         </Link>
       </div>
 
-      <time className="text-xs text-gray-500">{post.date}</time>
-      <h1 className="text-3xl font-bold mt-2 mb-8">{post.title}</h1>
+      <time className="text-xs text-[#1b1b24]/40">{post.date}</time>
+      <h1 className="text-3xl font-bold mt-2 mb-8 text-[#1b1b24]">{post.title}</h1>
 
-      <article className="prose prose-invert prose-lg max-w-none
-        prose-headings:font-semibold
+      <article className="prose prose-lg max-w-none
+        prose-headings:font-semibold prose-headings:text-[#1b1b24]
         prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-4
         prose-h3:text-lg prose-h3:mt-6 prose-h3:mb-2
-        prose-p:text-gray-300 prose-p:leading-relaxed
-        prose-li:text-gray-300
-        prose-strong:text-white
+        prose-p:text-[#1b1b24]/80 prose-p:leading-relaxed
+        prose-li:text-[#1b1b24]/80
+        prose-strong:text-[#1b1b24]
         prose-table:text-sm
-        prose-td:text-gray-300 prose-th:text-white
-        prose-a:text-indigo-400 prose-a:no-underline hover:prose-a:underline
-        prose-blockquote:border-indigo-500 prose-blockquote:text-gray-400
-        prose-code:text-indigo-300 prose-code:bg-white/5 prose-code:px-1 prose-code:rounded">
-        <MDXRemote source={post.content} />
+        prose-td:text-[#1b1b24]/70 prose-th:text-[#1b1b24]
+        prose-a:text-[#383fd9] prose-a:no-underline hover:prose-a:underline
+        prose-blockquote:border-[#383fd9] prose-blockquote:text-[#1b1b24]/60
+        prose-code:text-[#383fd9] prose-code:bg-[#383fd9]/10 prose-code:px-1 prose-code:rounded">
+        <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
       </article>
 
-      <div className="mt-16 p-6 bg-indigo-600/20 border border-indigo-500/30 rounded-xl text-center">
-        <p className="text-lg font-semibold mb-2">
+      <div className="mt-16 p-6 bg-[#383fd9]/10 border border-[#383fd9]/30 rounded-xl text-center">
+        <p className="text-lg font-semibold mb-2 text-[#1b1b24]">
           지금 바로 무료로 변환해보세요
         </p>
-        <p className="text-gray-400 text-sm mb-4">
+        <p className="text-[#1b1b24]/60 text-sm mb-4">
           회원가입 없이 PNG, JPG, WebP → SVG 즉시 변환
         </p>
         <Link
           href="/"
-          className="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-6 py-2.5 rounded-lg transition-colors"
+          className="inline-block bg-[#383fd9] hover:bg-[#535bf2] text-white font-medium px-6 py-2.5 rounded-lg transition-colors"
         >
           변환기 사용하기 →
         </Link>
