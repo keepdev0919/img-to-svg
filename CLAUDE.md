@@ -1,0 +1,46 @@
+# VectorFlow — Claude Code Context
+
+## Project
+
+PNG/JPG/WebP 이미지를 SVG로 변환하는 웹앱.
+
+- **Backend:** FastAPI + vtracer + rembg (`backend/`)
+- **Frontend:** Next.js (App Router) + Tailwind CSS v4 (`frontend/`)
+- **GitHub:** https://github.com/keepdev0919/img-to-svg
+
+## Deploy Configuration (configured by /setup-deploy)
+
+- Platform: Railway (backend) + Vercel (frontend)
+- Production URL (backend): https://img-to-svg-production.up.railway.app
+- Production URL (frontend): https://img-to-svg-six.vercel.app
+- Deploy workflow: auto-deploy on push to main
+- Project type: web app (monorepo — backend + frontend)
+- Post-deploy health check: https://img-to-svg-production.up.railway.app/health
+
+### Custom deploy hooks
+
+- Pre-merge: none
+- Deploy trigger: automatic on push to main (Railway watches `backend/`, Vercel watches `frontend/`)
+- Deploy status: poll production URL
+- Health check: https://img-to-svg-production.up.railway.app/health (HTTP 200)
+
+### Environment variables
+
+**Railway (backend):**
+- `ALLOWED_ORIGINS=https://img-to-svg-six.vercel.app`
+
+**Vercel (frontend):**
+- `NEXT_PUBLIC_API_URL=https://img-to-svg-production.up.railway.app`
+- `NEXT_PUBLIC_SITE_URL=https://img-to-svg-six.vercel.app`
+
+## Local Development
+
+```bash
+# Backend
+cd backend && python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+
+# Frontend
+cd frontend && npm install && npm run dev
+```
