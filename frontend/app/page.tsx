@@ -1,4 +1,5 @@
 import Converter from "./components/Converter";
+import { NavLinks, NavButtons } from "./components/NavActions";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -36,25 +37,8 @@ export default function Home() {
       <nav className="fixed top-0 w-full z-50 glass-nav border-b border-[#c6c5d8]/30">
         <div className="flex justify-between items-center px-8 h-20 w-full max-w-7xl mx-auto">
           <div className="text-2xl font-bold tracking-tighter font-headline">imgtosvg</div>
-          <div className="hidden md:flex items-center gap-10">
-            <a href="#" className="text-[#383fd9] font-bold border-b-2 border-[#383fd9] pb-1 font-headline text-sm tracking-tight">
-              Convert
-            </a>
-            <a href="#" className="text-[#1b1b24]/60 hover:text-[#383fd9] font-medium font-headline text-sm tracking-tight transition-colors">
-              Pricing
-            </a>
-            <a href="#" className="text-[#1b1b24]/60 hover:text-[#383fd9] font-medium font-headline text-sm tracking-tight transition-colors">
-              API
-            </a>
-          </div>
-          <div className="flex items-center gap-4">
-            <button className="px-6 py-2.5 text-sm font-medium text-[#1b1b24]/80 hover:text-[#383fd9] transition-colors">
-              Login
-            </button>
-            <button className="px-6 py-2.5 bg-gradient-to-br from-[#383fd9] to-[#535bf2] text-white text-sm font-semibold rounded-full editorial-shadow hover:opacity-90 active:scale-95 transition-all">
-              Sign Up
-            </button>
-          </div>
+          <NavLinks />
+          <NavButtons />
         </div>
       </nav>
 

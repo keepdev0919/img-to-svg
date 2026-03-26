@@ -3,6 +3,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+
+declare const gtag: (...args: unknown[]) => void;
+function track(label: string, extra?: Record<string, unknown>) {
+  if (typeof gtag !== "undefined") {
+    gtag("event", "click", { event_category: "converter", event_label: label, ...extra });
+  }
+}
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 const SUPPORTED = ["image/png", "image/jpeg", "image/webp"];
 
@@ -52,6 +59,7 @@ export default function Converter() {
       return URL.createObjectURL(f);
     });
     setState({ kind: "idle" });
+    track("file_selected", { file_type: f.type });
   }, []);
 
   const onDrop = useCallback(
@@ -66,6 +74,7 @@ export default function Converter() {
   const convert = async () => {
     if (!file) return;
     setState({ kind: "converting" });
+    track("convert_clicked", { remove_bg: removeBg });
 
     const form = new FormData();
     form.append("file", file);
@@ -98,6 +107,7 @@ export default function Converter() {
       const pathCount = parseInt(res.headers.get("X-Path-Count") ?? "0", 10);
       const complexityWarning = res.headers.get("X-Complexity-Warning") === "true";
       setState({ kind: "done", svgText, pathCount, complexityWarning });
+      track("convert_success", { path_count: pathCount });
     } catch {
       setState({ kind: "error", message: "서버에 연결할 수 없어요. 잠시 후 다시 시도해주세요." });
     }
@@ -108,10 +118,12 @@ export default function Converter() {
     await navigator.clipboard.writeText(state.svgText);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+    track("copy_svg");
   };
 
   const download = () => {
     if (state.kind !== "done") return;
+    track("download_svg");
     const blob = new Blob([state.svgText], { type: "image/svg+xml" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -208,7 +220,7 @@ export default function Converter() {
               <input
                 type="checkbox"
                 checked={removeBg}
-                onChange={(e) => setRemoveBg(e.target.checked)}
+                onChange={(e) => { setRemoveBg(e.target.checked); track("toggle_remove_bg", { enabled: e.target.checked }); }}
                 disabled={isConverting}
                 className="w-4 h-4 accent-[#383fd9]"
               />
@@ -217,7 +229,7 @@ export default function Converter() {
 
             <button
               type="button"
-              onClick={() => setShowAdvanced((v) => !v)}
+              onClick={() => { setShowAdvanced((v) => { track("toggle_advanced", { open: !v }); return !v; }); }}
               className="text-sm text-[#383fd9] hover:underline font-medium"
             >
               {showAdvanced ? "고급 설정 접기 ▲" : "고급 설정 ▼"}
