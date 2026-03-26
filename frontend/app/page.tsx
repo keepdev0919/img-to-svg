@@ -3,7 +3,7 @@ import Converter from "./components/Converter";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "VectorFlow",
+  name: "imgtosvg",
   alternateName: "이미지 SVG 변환기",
   description:
     "PNG, JPG, WebP 이미지를 Figma·PPT에서 편집 가능한 SVG 파일로 무료 변환하는 온라인 도구",

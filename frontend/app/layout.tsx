@@ -17,7 +17,7 @@ const inter = Inter({
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vectorflow.app";
 
 export const metadata: Metadata = {
-  title: "이미지 SVG 변환기 | VectorFlow — PNG·JPG·WebP 무료 변환",
+  title: "이미지 SVG 변환기 | imgtosvg — PNG·JPG·WebP 무료 변환",
   description:
     "PNG, JPG, WebP 이미지를 Figma·PPT에서 편집 가능한 SVG로 무료 변환. 배경 제거 기능 포함. 회원가입 없이 즉시 사용.",
   keywords: [
@@ -25,21 +25,22 @@ export const metadata: Metadata = {
     "PNG SVG 변환",
     "JPG SVG 변환",
     "image to svg",
+    "imgtosvg",
     "svg converter",
     "벡터 변환",
     "배경 제거",
   ],
   openGraph: {
-    title: "이미지 SVG 변환기 | VectorFlow",
+    title: "이미지 SVG 변환기 | imgtosvg",
     description: "PNG, JPG, WebP를 Figma·PPT에서 편집 가능한 SVG로 무료 변환. 배경 제거 포함.",
     url: siteUrl,
-    siteName: "VectorFlow",
+    siteName: "imgtosvg",
     locale: "ko_KR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "이미지 SVG 변환기 | VectorFlow",
+    title: "이미지 SVG 변환기 | imgtosvg",
     description: "PNG, JPG, WebP를 Figma·PPT에서 편집 가능한 SVG로 무료 변환.",
   },
   alternates: {
