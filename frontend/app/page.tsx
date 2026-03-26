@@ -98,7 +98,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col gap-2">
             <span className="text-xl font-bold font-headline">imgtosvg</span>
-            <p className="text-xs text-[#1b1b24]/50">© 2025 VectorFlow AI. All rights reserved.</p>
+            <p className="text-xs text-[#1b1b24]/50">© 2025 imgtosvg. All rights reserved.</p>
           </div>
           <div className="flex flex-wrap justify-center gap-8">
             <a href="#" className="text-xs text-[#1b1b24]/50 hover:text-[#1b1b24] transition-colors">Terms of Service</a>

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vectorflow.app/sitemap.xml
+Sitemap: https://img-to-svg-six.vercel.app/sitemap.xml
