@@ -41,7 +41,7 @@ from rembg import remove; \
 buf = io.BytesIO(); \
 Image.new('RGB', (4, 4)).save(buf, 'PNG'); \
 remove(buf.getvalue()); \
-print('rembg U2Net model ready')"
+print('rembg U2Net model ready')" || echo "rembg model pre-download skipped"
 
 COPY main.py .
 
