@@ -239,3 +239,103 @@ describe("변환 성공 상태", () => {
     expect(screen.getByText(/501개/)).toBeInTheDocument();
   });
 });
+
+// ── 설정 컨트롤 ───────────────────────────────────────────────────────────────
+
+describe("설정 컨트롤", () => {
+  async function uploadFile() {
+    const input = document.querySelector(
+      'input[type="file"]'
+    ) as HTMLInputElement;
+    const file = new File(["data"], "test.png", { type: "image/png" });
+    await act(async () => {
+      fireEvent.change(input, { target: { files: [file] } });
+    });
+  }
+
+  it("고급 설정 토글이 슬라이더 패널을 표시/숨김한다", async () => {
+    render(<Home />);
+    await uploadFile();
+
+    // 초기: 고급 설정 패널 숨겨져 있음
+    expect(screen.queryByText("색상 정밀도")).not.toBeInTheDocument();
+
+    // 토글 클릭
+    fireEvent.click(screen.getByText(/고급 설정 ▼/));
+    expect(screen.getByText("색상 정밀도")).toBeInTheDocument();
+
+    // 다시 클릭 → 숨김
+    fireEvent.click(screen.getByText(/고급 설정 접기 ▲/));
+    expect(screen.queryByText("색상 정밀도")).not.toBeInTheDocument();
+  });
+
+  it("배경 제거 체크박스가 체크/해제된다", async () => {
+    render(<Home />);
+    await uploadFile();
+
+    const checkbox = screen.getByRole("checkbox") as HTMLInputElement;
+    expect(checkbox.checked).toBe(false);
+
+    fireEvent.click(checkbox);
+    expect(checkbox.checked).toBe(true);
+  });
+});
+
+// ── 성공 후 액션 ──────────────────────────────────────────────────────────────
+
+describe("성공 후 액션", () => {
+  const mockSvg = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0"/></svg>';
+
+  beforeEach(() => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        text: vi.fn().mockResolvedValue(mockSvg),
+        headers: {
+          get: (key: string) => {
+            if (key === "X-Path-Count") return "1";
+            if (key === "X-Complexity-Warning") return "false";
+            return null;
+          },
+        },
+      })
+    );
+  });
+
+  async function uploadAndConvert() {
+    render(<Home />);
+    const input = document.querySelector(
+      'input[type="file"]'
+    ) as HTMLInputElement;
+    const file = new File(["data"], "test.png", { type: "image/png" });
+    await act(async () => {
+      fireEvent.change(input, { target: { files: [file] } });
+    });
+    await act(async () => {
+      fireEvent.click(screen.getByText("SVG로 변환"));
+    });
+  }
+
+  it("복사 클릭 후 '복사됨' 피드백을 표시한다", async () => {
+    await uploadAndConvert();
+
+    await act(async () => {
+      fireEvent.click(screen.getByText("SVG 코드 복사"));
+    });
+
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(mockSvg);
+    expect(screen.getByText("복사됨")).toBeInTheDocument();
+  });
+
+  it("재변환 버튼이 API를 다시 호출한다", async () => {
+    await uploadAndConvert();
+
+    await act(async () => {
+      fireEvent.click(screen.getByText("재변환"));
+    });
+
+    expect(vi.mocked(fetch)).toHaveBeenCalledTimes(2);
+  });
+});

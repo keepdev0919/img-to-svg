@@ -1,4 +1,5 @@
 import io
+from unittest.mock import patch
 
 import pytest
 from fastapi.testclient import TestClient
@@ -12,6 +13,12 @@ client = TestClient(app)
 def make_png(size: tuple[int, int] = (32, 32)) -> bytes:
     buf = io.BytesIO()
     Image.new("RGB", size, (200, 100, 50)).save(buf, format="PNG")
+    return buf.getvalue()
+
+
+def make_webp(size: tuple[int, int] = (32, 32)) -> bytes:
+    buf = io.BytesIO()
+    Image.new("RGB", size, (200, 100, 50)).save(buf, format="WEBP")
     return buf.getvalue()
 
 
@@ -132,3 +139,41 @@ def test_out_of_range_params_are_clamped():
         data={"color_precision": "0", "path_precision": "1"},
     )
     assert res.status_code == 200
+
+
+# ── WebP 지원 ─────────────────────────────────────────────────────────────────
+
+def test_convert_webp_returns_svg():
+    res = client.post(
+        "/api/convert",
+        files={"file": ("test.webp", make_webp(), "image/webp")},
+    )
+    assert res.status_code == 200
+    assert res.headers["content-type"].startswith("image/svg+xml")
+    assert "<svg" in res.text
+
+
+# ── 배경 제거 경로 ─────────────────────────────────────────────────────────────
+
+def test_remove_background_true_returns_svg():
+    # rembg 실제 호출 없이 경로만 검증 — remove_bg 함수를 identity로 mock
+    with patch("main.remove_bg", side_effect=lambda img: img):
+        res = client.post(
+            "/api/convert",
+            files={"file": ("test.png", make_png(), "image/png")},
+            data={"remove_background": "true"},
+        )
+    assert res.status_code == 200
+    assert "<svg" in res.text
+
+
+def test_remove_background_false_skips_rembg():
+    # remove_background=false 이면 remove_bg를 호출하지 않아야 함
+    with patch("main.remove_bg") as mock_rembg:
+        res = client.post(
+            "/api/convert",
+            files={"file": ("test.png", make_png(), "image/png")},
+            data={"remove_background": "false"},
+        )
+    assert res.status_code == 200
+    mock_rembg.assert_not_called()

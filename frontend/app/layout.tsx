@@ -14,7 +14,7 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vectorflow.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://img-to-svg-six.vercel.app";
 
 export const metadata: Metadata = {
   title: "이미지 SVG 변환기 | imgtosvg — PNG·JPG·WebP 무료 변환",
