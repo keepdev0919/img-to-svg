@@ -35,7 +35,7 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 glass-nav border-b border-[#c6c5d8]/30">
         <div className="flex justify-between items-center px-8 h-20 w-full max-w-7xl mx-auto">
-          <div className="text-2xl font-bold tracking-tighter font-headline">VectorFlow</div>
+          <div className="text-2xl font-bold tracking-tighter font-headline">imgtosvg</div>
           <div className="hidden md:flex items-center gap-10">
             <a href="#" className="text-[#383fd9] font-bold border-b-2 border-[#383fd9] pb-1 font-headline text-sm tracking-tight">
               Convert
@@ -113,7 +113,7 @@ export default function Home() {
       <footer className="w-full py-12 px-8 bg-[#f5f2ff] border-t border-[#1b1b24]/5">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col gap-2">
-            <span className="text-xl font-bold font-headline">VectorFlow AI</span>
+            <span className="text-xl font-bold font-headline">imgtosvg</span>
             <p className="text-xs text-[#1b1b24]/50">© 2025 VectorFlow AI. All rights reserved.</p>
           </div>
           <div className="flex flex-wrap justify-center gap-8">
