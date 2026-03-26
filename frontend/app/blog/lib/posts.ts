@@ -10,10 +10,16 @@ export interface PostMeta {
   date: string;
   slug: string;
   keywords: string[];
+  readingTime: number;
 }
 
 export interface Post extends PostMeta {
   content: string;
+}
+
+function calcReadingTime(content: string): number {
+  const words = content.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
 }
 
 export function getAllPosts(): PostMeta[] {
@@ -24,8 +30,8 @@ export function getAllPosts(): PostMeta[] {
     .filter((f) => f.endsWith(".mdx") || f.endsWith(".md"))
     .map((filename) => {
       const raw = fs.readFileSync(path.join(POSTS_DIR, filename), "utf-8");
-      const { data } = matter(raw);
-      return data as PostMeta;
+      const { data, content } = matter(raw);
+      return { ...(data as PostMeta), readingTime: calcReadingTime(content) };
     })
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
@@ -41,7 +47,7 @@ export function getPostBySlug(slug: string): Post | null {
     const raw = fs.readFileSync(path.join(POSTS_DIR, filename), "utf-8");
     const { data, content } = matter(raw);
     if (data.slug === slug) {
-      return { ...(data as PostMeta), content };
+      return { ...(data as PostMeta), content, readingTime: calcReadingTime(content) };
     }
   }
   return null;
