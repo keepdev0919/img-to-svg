@@ -8,7 +8,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 declare const gtag: (...args: unknown[]) => void;
 function track(label: string, extra?: Record<string, unknown>) {
   if (typeof gtag !== "undefined") {
-    gtag("event", "click", { event_category: "converter", event_label: label, ...extra });
+    gtag("event", label, { event_category: "converter", ...extra });
   }
 }
 const MAX_FILE_BYTES = 10 * 1024 * 1024;

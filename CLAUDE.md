@@ -33,6 +33,10 @@ PNG/JPG/WebP 이미지를 SVG로 변환하는 웹앱.
 - `NEXT_PUBLIC_API_URL=https://img-to-svg-production.up.railway.app`
 - `NEXT_PUBLIC_SITE_URL=https://img-to-svg-six.vercel.app`
 
+## Blog Automation (보류)
+
+매주 월요일 SEO 블로그 자동 생성을 Claude Code Remote Trigger로 시도했으나, 세션이 빈 상태로 실행되는 플랫폼 이슈로 보류 중. 상세 내용은 `docs/blog-automation.md` 참고. 플랫폼 안정화 후 재시도 예정.
+
 ## Local Development
 
 ```bash
